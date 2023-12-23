@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 import os
 
-defalut_path = "./FAANGN_24-12-2023-05-20-18.xlsx"
+defalut_path = "./FAANGN_24-12-2023-06-41-20.xlsx"
 
 def crawler():
     now = datetime.now()
@@ -388,7 +388,12 @@ def crawler():
     fyi_df = pd.DataFrame(fyi).T
     fyi_df.to_excel(excel_path)
     print()
-    print("[v] Excel output success")
+    print("[v] Excel output success :)")
+    print(f"[v] Done at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    excel_data = pd.read_excel(excel_path)
+    fyi = excel_data.to_dict(orient='records')
+    
     return fyi
 
 def query(levels_data):
@@ -402,28 +407,52 @@ def query(levels_data):
             if cmds[0].lower() == "exit" or cmds[0].lower() == "quit":
                 break
             else:
-                for sub_cmd in cmds:
-                    if sub_cmd == "max_tc":
-                        max_tc = 0
-                        max_tc_data = None
-                        for data in levels_data:
-                            if data["TotalCompensation"] != "NA":
-                                tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
-                                if tc > max_tc:
-                                    max_tc = tc
-                                    max_tc_data = data
-                        print("[v] Max total compensation")
-                        print(f" |-- [i] Company: {max_tc_data['Company']}")
-                        print(f" |-- [i] Location: {max_tc_data['Location']}")
-                        print(f" |-- [i] Date: {max_tc_data['Date']}")
-                        print(f" |-- [i] Level Name: {max_tc_data['Level Name']}")
-                        print(f" |-- [i] Tag: {max_tc_data['Tag']}")
-                        print(f" |-- [i] Year of Experience: {max_tc_data['YearOfExperience']}")
-                        print(f" |-- [i] Total/At Company: {max_tc_data['Total/AtCompany']}")
-                        print(f" |-- [i] Total Compensation: {max_tc_data['TotalCompensation']}")
-                        print(f" |-- [i] Base: {max_tc_data['Base']}")
-                        print(f" |-- [i] Stock(yr): {max_tc_data['Stock(yr)']}")
-                        print(f" |-- [i] Bonus: {max_tc_data['Bonus']}")
+                main_cmd = cmds[0].lower()
+                if main_cmd == "max_tc":
+                    max_tc = 0
+                    max_tc_data = None
+                    for data in levels_data:
+                        if data["TotalCompensation"] != "NA":
+                            tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
+                            if tc > max_tc:
+                                max_tc = tc
+                                max_tc_data = data
+                    print("[v] Max total compensation")
+                    print(f"  |-- [i] Company: {max_tc_data['Company']}")
+                    print(f"  |-- [i] Location: {max_tc_data['Location']}")
+                    print(f"  |-- [i] Date: {max_tc_data['Date']}")
+                    print(f"  |-- [i] Level Name: {max_tc_data['Level Name']}")
+                    print(f"  |-- [i] Tag: {max_tc_data['Tag']}")
+                    print(f"  |-- [i] Year of Experience: {max_tc_data['YearOfExperience']}")
+                    print(f"  |-- [i] Total/At Company: {max_tc_data['Total/AtCompany']}")
+                    print(f"  |-- [i] Total Compensation: {max_tc_data['TotalCompensation']}")
+                    print(f"  |-- [i] Base: {max_tc_data['Base']}")
+                    print(f"  |-- [i] Stock(yr): {max_tc_data['Stock(yr)']}")
+                    print(f"  |-- [i] Bonus: {max_tc_data['Bonus']}")
+                elif main_cmd == "min_tc":
+                    min_tc = 0
+                    min_tc_data = None
+                    for data in levels_data:
+                        if data["TotalCompensation"] != "NA":
+                            tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
+                            if min_tc == 0:
+                                min_tc = tc
+                                min_tc_data = data
+                            elif tc < min_tc:
+                                min_tc = tc
+                                min_tc_data = data
+                    print("[v] Min total compensation")
+                    print(f"  |-- [i] Company: {min_tc_data['Company']}")
+                    print(f"  |-- [i] Location: {min_tc_data['Location']}")
+                    print(f"  |-- [i] Date: {min_tc_data['Date']}")
+                    print(f"  |-- [i] Level Name: {min_tc_data['Level Name']}")
+                    print(f"  |-- [i] Tag: {min_tc_data['Tag']}")
+                    print(f"  |-- [i] Year of Experience: {min_tc_data['YearOfExperience']}")
+                    print(f"  |-- [i] Total/At Company: {min_tc_data['Total/AtCompany']}")
+                    print(f"  |-- [i] Total Compensation: {min_tc_data['TotalCompensation']}")
+                    print(f"  |-- [i] Base: {min_tc_data['Base']}")
+                    print(f"  |-- [i] Stock(yr): {min_tc_data['Stock(yr)']}")
+                    print(f"  |-- [i] Bonus: {min_tc_data['Bonus']}")
         except Exception as e:
             print(f"[!] {e}")
 
@@ -434,6 +463,7 @@ if __name__ == '__main__':
     data = {}
     
     while True:
+        flag = False
         try:
             toCrawl = None
             print("[>] Data source (c/currently, p/specify_path, d/defualt, other/exit): ", end="")
@@ -444,6 +474,7 @@ if __name__ == '__main__':
                     try:
                         data = crawler()
                         print("[v] Web crawler success :)")
+                        flag = True
                         break
                     except Exception as e:
                         print()
@@ -467,6 +498,11 @@ if __name__ == '__main__':
                 excel_data = pd.read_excel(defalut_path)
                 data = excel_data.to_dict(orient='records')
                 break
+            else:
+                print("[!] Exit")
+                exit()
+            
+            if flag: break
         except Exception as e:
             print(f"[!] {e}")
     
