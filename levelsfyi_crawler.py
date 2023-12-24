@@ -10,6 +10,7 @@ import requests
 import time
 from datetime import datetime
 import os
+import matplotlib.pyplot as plt
 
 defalut_path = "./FAANGN_24-12-2023-06-41-20.xlsx"
 
@@ -407,52 +408,190 @@ def query(levels_data):
             if cmds[0].lower() == "exit" or cmds[0].lower() == "quit":
                 break
             else:
-                main_cmd = cmds[0].lower()
-                if main_cmd == "max_tc":
-                    max_tc = 0
-                    max_tc_data = None
-                    for data in levels_data:
-                        if data["TotalCompensation"] != "NA":
-                            tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
-                            if tc > max_tc:
-                                max_tc = tc
-                                max_tc_data = data
-                    print("[v] Max total compensation")
-                    print(f"  |-- [i] Company: {max_tc_data['Company']}")
-                    print(f"  |-- [i] Location: {max_tc_data['Location']}")
-                    print(f"  |-- [i] Date: {max_tc_data['Date']}")
-                    print(f"  |-- [i] Level Name: {max_tc_data['Level Name']}")
-                    print(f"  |-- [i] Tag: {max_tc_data['Tag']}")
-                    print(f"  |-- [i] Year of Experience: {max_tc_data['YearOfExperience']}")
-                    print(f"  |-- [i] Total/At Company: {max_tc_data['Total/AtCompany']}")
-                    print(f"  |-- [i] Total Compensation: {max_tc_data['TotalCompensation']}")
-                    print(f"  |-- [i] Base: {max_tc_data['Base']}")
-                    print(f"  |-- [i] Stock(yr): {max_tc_data['Stock(yr)']}")
-                    print(f"  |-- [i] Bonus: {max_tc_data['Bonus']}")
-                elif main_cmd == "min_tc":
-                    min_tc = 0
-                    min_tc_data = None
-                    for data in levels_data:
-                        if data["TotalCompensation"] != "NA":
-                            tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
-                            if min_tc == 0:
-                                min_tc = tc
-                                min_tc_data = data
-                            elif tc < min_tc:
-                                min_tc = tc
-                                min_tc_data = data
-                    print("[v] Min total compensation")
-                    print(f"  |-- [i] Company: {min_tc_data['Company']}")
-                    print(f"  |-- [i] Location: {min_tc_data['Location']}")
-                    print(f"  |-- [i] Date: {min_tc_data['Date']}")
-                    print(f"  |-- [i] Level Name: {min_tc_data['Level Name']}")
-                    print(f"  |-- [i] Tag: {min_tc_data['Tag']}")
-                    print(f"  |-- [i] Year of Experience: {min_tc_data['YearOfExperience']}")
-                    print(f"  |-- [i] Total/At Company: {min_tc_data['Total/AtCompany']}")
-                    print(f"  |-- [i] Total Compensation: {min_tc_data['TotalCompensation']}")
-                    print(f"  |-- [i] Base: {min_tc_data['Base']}")
-                    print(f"  |-- [i] Stock(yr): {min_tc_data['Stock(yr)']}")
-                    print(f"  |-- [i] Bonus: {min_tc_data['Bonus']}")
+                if len(cmds) == 1:
+                    main_cmd = cmds[0].lower()
+                    if main_cmd == "max_tc":
+                        max_tc = 0
+                        max_tc_data = None
+                        for data in levels_data:
+                            if data["TotalCompensation"] != "NA":
+                                tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
+                                if tc > max_tc:
+                                    max_tc = tc
+                                    max_tc_data = data
+                        print("[v] Max total compensation")
+                        print(f"  |-- [i] Company: {max_tc_data['Company']}")
+                        print(f"  |-- [i] Location: {max_tc_data['Location']}")
+                        print(f"  |-- [i] Date: {max_tc_data['Date']}")
+                        print(f"  |-- [i] Level Name: {max_tc_data['Level Name']}")
+                        print(f"  |-- [i] Tag: {max_tc_data['Tag']}")
+                        print(f"  |-- [i] Year of Experience: {max_tc_data['YearOfExperience']}")
+                        print(f"  |-- [i] Total/At Company: {max_tc_data['Total/AtCompany']}")
+                        print(f"  |-- [i] Total Compensation: {max_tc_data['TotalCompensation']}")
+                        print(f"  |-- [i] Base: {max_tc_data['Base']}")
+                        print(f"  |-- [i] Stock(yr): {max_tc_data['Stock(yr)']}")
+                        print(f"  |-- [i] Bonus: {max_tc_data['Bonus']}")
+                    elif main_cmd == "min_tc":
+                        min_tc = 0
+                        min_tc_data = None
+                        for data in levels_data:
+                            if data["TotalCompensation"] != "NA":
+                                tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
+                                if min_tc == 0:
+                                    min_tc = tc
+                                    min_tc_data = data
+                                elif tc < min_tc:
+                                    min_tc = tc
+                                    min_tc_data = data
+                        print("[v] Min total compensation")
+                        print(f"  |-- [i] Company: {min_tc_data['Company']}")
+                        print(f"  |-- [i] Location: {min_tc_data['Location']}")
+                        print(f"  |-- [i] Date: {min_tc_data['Date']}")
+                        print(f"  |-- [i] Level Name: {min_tc_data['Level Name']}")
+                        print(f"  |-- [i] Tag: {min_tc_data['Tag']}")
+                        print(f"  |-- [i] Year of Experience: {min_tc_data['YearOfExperience']}")
+                        print(f"  |-- [i] Total/At Company: {min_tc_data['Total/AtCompany']}")
+                        print(f"  |-- [i] Total Compensation: {min_tc_data['TotalCompensation']}")
+                        print(f"  |-- [i] Base: {min_tc_data['Base']}")
+                        print(f"  |-- [i] Stock(yr): {min_tc_data['Stock(yr)']}")
+                        print(f"  |-- [i] Bonus: {min_tc_data['Bonus']}")
+                    elif main_cmd == "median_tc":
+                        tc_list = []
+                        for data in levels_data:
+                            if data["TotalCompensation"] != "NA":
+                                tc = int(data["TotalCompensation"].split("$")[1].replace(",", ""))
+                                tc_list.append(tc)
+                        tc_list.sort()
+                        tc_len = len(tc_list)
+                        if tc_len % 2 == 0:
+                            median_tc = (tc_list[int(tc_len / 2) - 1] + tc_list[int(tc_len / 2)]) / 2
+                        else:
+                            median_tc = tc_list[int(tc_len / 2)]
+                        print("[v] Median total compensation")
+                        print(f"  |-- [i] {median_tc}")
+                    else:
+                        raise Exception(f"{cmds[0]} is not a valid command")
+                elif cmds[0] == "company" or cmds[0] == "location" or cmds[0] == "level" or cmds[0] == "tag" or cmds[0] == "yoe":
+                    if cmds[0] == "company":
+                        company = cmds[1]
+                        print(f"[v] {company} total compensation")
+                        res = []
+                        for data in levels_data:
+                            if data["Company"] == company:
+                                res.append(data)
+                        if len(res) == 0:
+                            print("  |-- [!] No data")
+                        else:
+                            # print res line by line
+                            i = 1
+                            for data in res:
+                                print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
+                                i+=1
+                    elif cmds[0] == "location":
+                        location = cmds[1]
+                        print(f"[v] Location: {location}")
+                        res = []
+                        for data in levels_data:
+                            if location in data["Location"]:
+                                res.append(data)
+                        if len(res) == 0:
+                            print("  |-- [!] No data")
+                        else:
+                            # print res line by line
+                            i = 1
+                            for data in res:
+                                print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
+                                i+=1
+                    elif cmds[0] == "level":
+                        level = cmds[1]
+                        print(f"[v] Level: {level}")
+                        res = []
+                        for data in levels_data:
+                            if level in data["Level Name"]:
+                                res.append(data)
+                        if len(res) == 0:
+                            print("  |-- [!] No data")
+                        else:
+                            # print res line by line
+                            i = 1
+                            for data in res:
+                                print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
+                                i+=1
+                    elif cmds[0] == "tag":
+                        tag = cmds[1]
+                        print(f"[v] Tag: {tag}")
+                        res = []
+                        for data in levels_data:
+                            if tag in data["Tag"]:
+                                res.append(data)
+                        if len(res) == 0:
+                            print("  |-- [!] No data")
+                        else:
+                            # print res line by line
+                            i = 1
+                            for data in res:
+                                print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
+                                i+=1
+                    elif cmds[0] == "yoe":
+                        yoe = cmds[1]
+                        print(f"[v] YOE: {yoe}")
+                        res = []
+                        for data in levels_data:
+                            year = int(data["YearOfExperience"].split(" ")[0])
+                            if int(yoe) == year:
+                                res.append(data)
+                        if len(res) == 0:
+                            print("  |-- [!] No data")
+                        else:
+                            # print res line by line
+                            i = 1
+                            for data in res:
+                                print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
+                                i+=1
+                    else:
+                        raise Exception(f"{cmds[0]} is not a valid command")
+                elif cmds[0] == "filter":
+                    cmds_index = 0
+                    res = []
+                    sub_cmds = cmds[1:]
+                    
+                    for item in levels_data:
+                        isMatch = True
+                        for cmds_index in range(0, len(sub_cmds), 2):
+                            if sub_cmds[cmds_index] == "company":
+                                if item["Company"] != sub_cmds[cmds_index + 1]:
+                                    isMatch = False
+                                    break
+                            elif sub_cmds[cmds_index] == "location":
+                                if sub_cmds[cmds_index + 1] not in item["Location"]:
+                                    isMatch = False
+                                    break
+                            elif sub_cmds[cmds_index] == "level":
+                                if sub_cmds[cmds_index + 1] not in item["Level Name"]:
+                                    isMatch = False
+                                    break
+                            elif sub_cmds[cmds_index] == "tag":
+                                if sub_cmds[cmds_index + 1] not in item["Tag"]:
+                                    isMatch = False
+                                    break
+                            elif sub_cmds[cmds_index] == "yoe":
+                                if int(sub_cmds[cmds_index + 1]) != int(item["YearOfExperience"].split(" ")[0]):
+                                    isMatch = False
+                                    break
+                            else:
+                                raise Exception(f"{sub_cmds[cmds_index]} is not a valid command")
+                        if isMatch:
+                            res.append(item)
+                    if len(res) == 0:
+                        print("  |-- [!] No data")
+                    else:
+                        # print res line by line
+                        i = 1
+                        for data in res:
+                            print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
+                            i+=1
+                else:
+                    raise Exception(f"{cmds[0]} is not a valid command")
         except Exception as e:
             print(f"[!] {e}")
 
