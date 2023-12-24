@@ -1,4 +1,4 @@
-# levels.fyi Web Crawler - 
+# levels.fyi Web Crawler
 ![Python Version](https://img.shields.io/badge/python-v3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
