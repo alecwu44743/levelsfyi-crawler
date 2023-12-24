@@ -5,7 +5,7 @@
 This is a web crawler script to collect salary information from levels.fyi for major tech companies (Facebook, Apple, Amazon, Netflix, Google, Nvidia). The data is then stored in an Excel file for analysis.
 
 ## Description
-This web crawler is developed by Alec and Leo for scraping salary data from levels.fyi. It fetches the most recent fifty records for each company from the website and saves the data in an Excel file.
+This web crawler project, developed by Alec Wu and Leo Chen, stems from a course requirement during our studies at Feng Chia University. The objective is to scrape salary data from levels.fyi. The script fetches the most recent fifty records for each company from the website and compiles the data into an Excel file. Additionally, the project provides functionality to query and plot the extracted information, offering a versatile tool for data analysis.
 
 ## Requirements
 Make sure you have the following Python packages installed:
