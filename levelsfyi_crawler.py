@@ -405,12 +405,22 @@ def query(levels_data):
             cmd = input()
             cmds = cmd.split()
             
+            res = []
+            plot = False
+            isCommand = False
+            
             if cmds[0].lower() == "exit" or cmds[0].lower() == "quit":
                 break
             else:
-                if len(cmds) == 1:
+                if cmds[-1] == "--plot":
+                    cmds.pop(-1)
+                    plot = True
+                if cmds[0] == "max_tc" or cmds[0] == "min_tc" or cmds[0] == "median_tc":
+                    isCommand = True
                     main_cmd = cmds[0].lower()
-                    if main_cmd == "max_tc":
+                    if main_cmd == "clear":
+                        os.system("clear")
+                    elif main_cmd == "max_tc":
                         max_tc = 0
                         max_tc_data = None
                         for data in levels_data:
@@ -469,13 +479,11 @@ def query(levels_data):
                             median_tc = tc_list[int(tc_len / 2)]
                         print("[v] Median total compensation")
                         print(f"  |-- [i] {median_tc}")
-                    else:
-                        raise Exception(f"{cmds[0]} is not a valid command")
                 elif cmds[0] == "company" or cmds[0] == "location" or cmds[0] == "level" or cmds[0] == "tag" or cmds[0] == "yoe":
+                    isCommand = True
                     if cmds[0] == "company":
                         company = cmds[1]
                         print(f"[v] {company} total compensation")
-                        res = []
                         for data in levels_data:
                             if data["Company"] == company:
                                 res.append(data)
@@ -490,7 +498,6 @@ def query(levels_data):
                     elif cmds[0] == "location":
                         location = cmds[1]
                         print(f"[v] Location: {location}")
-                        res = []
                         for data in levels_data:
                             if location in data["Location"]:
                                 res.append(data)
@@ -505,7 +512,6 @@ def query(levels_data):
                     elif cmds[0] == "level":
                         level = cmds[1]
                         print(f"[v] Level: {level}")
-                        res = []
                         for data in levels_data:
                             if level in data["Level Name"]:
                                 res.append(data)
@@ -520,7 +526,6 @@ def query(levels_data):
                     elif cmds[0] == "tag":
                         tag = cmds[1]
                         print(f"[v] Tag: {tag}")
-                        res = []
                         for data in levels_data:
                             if tag in data["Tag"]:
                                 res.append(data)
@@ -535,7 +540,6 @@ def query(levels_data):
                     elif cmds[0] == "yoe":
                         yoe = cmds[1]
                         print(f"[v] YOE: {yoe}")
-                        res = []
                         for data in levels_data:
                             year = int(data["YearOfExperience"].split(" ")[0])
                             if int(yoe) == year:
@@ -548,11 +552,9 @@ def query(levels_data):
                             for data in res:
                                 print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                                 i+=1
-                    else:
-                        raise Exception(f"{cmds[0]} is not a valid command")
                 elif cmds[0] == "filter":
+                    isCommand = True
                     cmds_index = 0
-                    res = []
                     sub_cmds = cmds[1:]
                     
                     for item in levels_data:
@@ -590,7 +592,37 @@ def query(levels_data):
                         for data in res:
                             print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                             i+=1
-                else:
+                if plot:
+                    print("[*] Plotting")
+                    average_salary = {}
+                    count = {}
+                    # ploting the average total compensation of each company
+                    for item in res:
+                        print(item)
+                        company = item['Company']
+                        compensation = int(item["TotalCompensation"].split("$")[1].replace(",", ""))
+                        print(company, compensation)
+                        
+                        if company in average_salary:
+                            average_salary[company] += compensation
+                            count[company] += 1
+                        else:
+                            average_salary[company] = compensation
+                            count[company] = 1
+                    for company in average_salary:
+                        average_salary[company] /= count[company]
+
+                    companies = list(average_salary.keys())
+                    salaries = list(average_salary.values())
+
+                    plt.bar(companies, salaries, color='blue')
+                    plt.xlabel('Company')
+                    plt.ylabel('Average Total Compensation')
+                    plt.title('Average Total Compensation by Company')
+                    plt.xticks(rotation=45)
+                    plt.show()
+                    os.system("clear")
+                if not isCommand:
                     raise Exception(f"{cmds[0]} is not a valid command")
         except Exception as e:
             print(f"[!] {e}")
@@ -609,8 +641,14 @@ if __name__ == '__main__':
             toCrawl = input()
             
             if toCrawl.lower() == "c" or toCrawl.lower() == "currently":
+                try_cnt = 0
                 while True:
                     try:
+                        try_cnt += 1
+                        if try_cnt > 5:
+                            print("[!] Some unusual errors occurred")
+                            print("[!] Exit")
+                            exit()
                         data = crawler()
                         print("[v] Web crawler success :)")
                         flag = True
