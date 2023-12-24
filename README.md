@@ -56,7 +56,7 @@ Type ```exit``` or ```quit``` to exit the script.
     level L4
     tag AI --plot
     yoe 3
-    filter company Apple location CA --plot
+    filter company Apple location CA
     ```
 
 ## Note
