@@ -48,7 +48,7 @@ Type ```exit``` or ```quit``` to exit the script.
 
 ## Example
 1. Run the script and choose to crawl data.
-2. uery the crawled data:
+2. Query the crawled data:
     ```bash
     max_tc
     min_tc
