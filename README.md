@@ -51,12 +51,21 @@ Type ```exit``` or ```quit``` to exit the script.
 2. uery the crawled data:
     ```bash
     max_tc
-    company Apple
-    location CA --plot
-    level L4
-    tag AI --plot
-    yoe 3
-    filter company Apple location CA
+    min_tc
+    median_tc
+
+    company Google/google
+    location CA/Taipei
+    level l3
+    tag AI
+    yoe 0
+    yoe 1
+
+    filter location CA yoe 0
+    filter yoe 0 tag AI plot
+    filter company google level l3
+    filter company google level l3 location CA
+    filter company google level l3 location CA tag API
     ```
 
 ## Note
