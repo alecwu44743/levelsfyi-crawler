@@ -397,6 +397,9 @@ def crawler():
     
     return fyi
 
+def get_avg_yoe(res):
+    pass
+
 def query(levels_data):
     print("[*] Setting levels.fyi query")
     while True:
@@ -497,6 +500,7 @@ def query(levels_data):
                             for data in res:
                                 print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                                 i+=1
+                            print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
                     elif cmds[0] == "location":
                         location = cmds[1]
                         print(f"[v] Location: {location}")
@@ -511,6 +515,7 @@ def query(levels_data):
                             for data in res:
                                 print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                                 i+=1
+                            print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
                     elif cmds[0] == "level":
                         level = cmds[1].lower()
                         print(f"[v] Level: {level}")
@@ -523,8 +528,10 @@ def query(levels_data):
                             # print res line by line
                             i = 1
                             for data in res:
-                                print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
+                                print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                                 i+=1
+                            print(f"[v] Average year of experience: {round(sum([int(data['YearOfExperience'].split(' ')[0]) for data in res]) / len(res), 1)}")
+                            print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
                     elif cmds[0] == "tag":
                         tag = cmds[1]
                         print(f"[v] Tag: {tag}")
@@ -539,6 +546,7 @@ def query(levels_data):
                             for data in res:
                                 print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                                 i+=1
+                            print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
                     elif cmds[0] == "yoe":
                         yoe = cmds[1]
                         print(f"[v] YOE: {yoe}")
@@ -554,6 +562,7 @@ def query(levels_data):
                             for data in res:
                                 print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                                 i+=1
+                            print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
                 elif cmds[0] == "filter":
                     isCommand = True
                     cmds_index = 0
@@ -594,16 +603,15 @@ def query(levels_data):
                         for data in res:
                             print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                             i+=1
+                        print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
                 if plot:
                     print("[*] Plotting")
                     average_salary = {}
                     count = {}
                     # ploting the average total compensation of each company
                     for item in res:
-                        print(item)
                         company = item['Company']
                         compensation = int(item["TotalCompensation"].split("$")[1].replace(",", ""))
-                        print(company, compensation)
                         
                         if company in average_salary:
                             average_salary[company] += compensation
