@@ -415,7 +415,7 @@ def query(levels_data):
                 if cmds[-1] == "--plot":
                     cmds.pop(-1)
                     plot = True
-                if cmds[0] == "max_tc" or cmds[0] == "min_tc" or cmds[0] == "median_tc":
+                if cmds[0] == "max_tc" or cmds[0] == "min_tc" or cmds[0] == "median_tc" or cmds[0] == "clear":
                     isCommand = True
                     main_cmd = cmds[0].lower()
                     if main_cmd == "clear":
@@ -479,13 +479,15 @@ def query(levels_data):
                             median_tc = tc_list[int(tc_len / 2)]
                         print("[v] Median total compensation")
                         print(f"  |-- [i] {median_tc}")
+                    elif main_cmd == "clear":
+                        os.system("clear")
                 elif cmds[0] == "company" or cmds[0] == "location" or cmds[0] == "level" or cmds[0] == "tag" or cmds[0] == "yoe":
                     isCommand = True
                     if cmds[0] == "company":
-                        company = cmds[1]
+                        company = cmds[1].lower()
                         print(f"[v] {company} total compensation")
                         for data in levels_data:
-                            if data["Company"] == company:
+                            if data["Company"].lower() == company:
                                 res.append(data)
                         if len(res) == 0:
                             print("  |-- [!] No data")
@@ -510,10 +512,10 @@ def query(levels_data):
                                 print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                                 i+=1
                     elif cmds[0] == "level":
-                        level = cmds[1]
+                        level = cmds[1].lower()
                         print(f"[v] Level: {level}")
                         for data in levels_data:
-                            if level in data["Level Name"]:
+                            if level in data["Level Name"].lower():
                                 res.append(data)
                         if len(res) == 0:
                             print("  |-- [!] No data")
@@ -561,7 +563,7 @@ def query(levels_data):
                         isMatch = True
                         for cmds_index in range(0, len(sub_cmds), 2):
                             if sub_cmds[cmds_index] == "company":
-                                if item["Company"] != sub_cmds[cmds_index + 1]:
+                                if item["Company"].lower() != sub_cmds[cmds_index + 1].lower():
                                     isMatch = False
                                     break
                             elif sub_cmds[cmds_index] == "location":
@@ -569,7 +571,7 @@ def query(levels_data):
                                     isMatch = False
                                     break
                             elif sub_cmds[cmds_index] == "level":
-                                if sub_cmds[cmds_index + 1] not in item["Level Name"]:
+                                if sub_cmds[cmds_index + 1].lower() not in item["Level Name"].lower():
                                     isMatch = False
                                     break
                             elif sub_cmds[cmds_index] == "tag":
