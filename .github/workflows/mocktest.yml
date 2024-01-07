@@ -1,4 +1,4 @@
-name: Python Mock
+name: Mock Testing
 
 on:
   push:
