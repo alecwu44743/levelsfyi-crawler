@@ -44,8 +44,8 @@ def crawler():
     time.sleep(1)
 
     #輸入帳密
-    username_input.send_keys("aaa67168900@gmail.com")
-    password_input.send_keys("Leo@0953920912")
+    username_input.send_keys("")
+    password_input.send_keys("")
     time.sleep(1)
 
     #按login
