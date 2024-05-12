@@ -24,7 +24,7 @@ Run the script to initiate web crawling. The script will prompt you to choose th
 - **d/default**: Use the default Excel file.
 
 ```bash
-python levelsfyi_crawler.py
+python3 levelsfyi_crawler.py
 ```
 
 ### Query Data
@@ -62,7 +62,7 @@ Type ```exit``` or ```quit``` to exit the script.
     yoe 1
 
     filter location CA yoe 0
-    filter yoe 0 tag AI plot
+    filter yoe 0 tag AI --plot
     filter company google level l3
     filter company google level l3 location CA
     filter company google level l3 location CA tag API
