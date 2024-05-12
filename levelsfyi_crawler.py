@@ -11,6 +11,12 @@ import time
 from datetime import datetime
 import os
 import matplotlib.pyplot as plt
+from dotenv import load_dotenv
+
+load_dotenv()
+
+email = os.getenv("EMAIL")
+password = os.getenv("PASSWD")
 
 # comment for Jenkins test
 # comment for Jenkins test 2
@@ -44,8 +50,8 @@ def crawler():
     time.sleep(1)
 
     #輸入帳密
-    username_input.send_keys("")
-    password_input.send_keys("")
+    username_input.send_keys(email)
+    password_input.send_keys(password)
     time.sleep(1)
 
     #按login
