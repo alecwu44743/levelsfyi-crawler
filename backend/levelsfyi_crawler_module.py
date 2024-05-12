@@ -400,7 +400,7 @@ def crawler(email, password):
 def get_avg_yoe(res):
     pass
 
-def query(levels_data, cmd):
+def query(levels_data, cmd, key):
     print("[*] Setting levels.fyi query")
     try:
         print("[v] query")
@@ -719,16 +719,31 @@ def query(levels_data, cmd):
                 if isMatch:
                     res.append(item)
             if len(res) == 0:
+                resp = {
+                    "title": f"Search for {sub_cmds} total compensation",
+                    "data": "no data, QQ"
+                }
                 print("  |-- [!] No data")
             else:
                 # print res line by line
                 i = 1
                 for data in res:
+                    subresp = {
+                        "Company": data["Company"],
+                        "Location": data["Location"],
+                        "Level Name": data["Level Name"],
+                        "Tag": data["Tag"],
+                        "YearOfExperience": data["YearOfExperience"],
+                        "TotalCompensation": data["TotalCompensation"]
+                    }
+                    resp[str(i)] = subresp
                     print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                     i+=1
+                resp["avg"] = round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)
                 print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
         if plot:
             print("[*] Plotting")
+            resp["plot"] = "True"
             average_salary = {}
             count = {}
             # ploting the average total compensation of each company
@@ -753,8 +768,11 @@ def query(levels_data, cmd):
             plt.ylabel('Average Total Compensation')
             plt.title('Average Total Compensation by Company')
             plt.xticks(rotation=45)
-            plt.show()
-            os.system("clear")
+            now = datetime.now()
+            dt_string = now.strftime("%d-%m-%Y-%H-%M-%S")
+            plt.savefig(f"{key}_{dt_string}_average_compensation.png", dpi=300, bbox_inches='tight', pad_inches=0.1)
+            plt.close()
+            resp["plot_path"] = f"{key}_{dt_string}_average_compensation.png"
         if not isCommand:
             raise Exception(f"{cmds[0]} is not a valid command")
         else:

@@ -78,7 +78,7 @@ async def callquery(request: Request):
         cmd = req_data["cmd"]
         key = req_data["key"]
         
-        res = query(database[key], cmd)
+        res = query(database[key], cmd, key)
         return res
     except Exception as e:
         print(f"[!] Error message: {e}")
