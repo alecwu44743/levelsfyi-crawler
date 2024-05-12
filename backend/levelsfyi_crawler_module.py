@@ -397,9 +397,6 @@ def crawler(email, password):
     
     return fyi
 
-def get_avg_yoe(res):
-    pass
-
 def query(levels_data, cmd, key):
     print("[*] Setting levels.fyi query")
     try:
