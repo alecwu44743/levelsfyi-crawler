@@ -554,13 +554,32 @@ def query(levels_data, cmd):
                     if location in data["Location"]:
                         res.append(data)
                 if len(res) == 0:
+                    resp = {
+                        "title": f"Search for [location:{location}] total compensation",
+                        "location": location,
+                        "data": "no data, QQ"
+                    }
                     print("  |-- [!] No data")
                 else:
                     # print res line by line
+                    resp = {
+                        "title": f"Search for [location:{location}] total compensation",
+                        "location": location
+                    }
                     i = 1
                     for data in res:
+                        subresp = {
+                            "Company": data["Company"],
+                            "Location": data["Location"],
+                            "Level Name": data["Level Name"],
+                            "Tag": data["Tag"],
+                            "YearOfExperience": data["YearOfExperience"],
+                            "TotalCompensation": data["TotalCompensation"]
+                        }
+                        resp[str(i)] = subresp
                         print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                         i+=1
+                    resp["avg"] = round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)
                     print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
             elif cmds[0] == "level":
                 level = cmds[1].lower()
@@ -569,13 +588,33 @@ def query(levels_data, cmd):
                     if level in data["Level Name"].lower():
                         res.append(data)
                 if len(res) == 0:
+                    resp = {
+                        "title": f"Search for [level:{level}] total compensation",
+                        "level": level,
+                        "data": "no data, QQ"
+                    }
                     print("  |-- [!] No data")
                 else:
                     # print res line by line
+                    resp = {
+                        "title": f"Search for [level:{level}] total compensation",
+                        "level": level
+                    }
                     i = 1
                     for data in res:
+                        subresp = {
+                            "Company": data["Company"],
+                            "Location": data["Location"],
+                            "Level Name": data["Level Name"],
+                            "Tag": data["Tag"],
+                            "YearOfExperience": data["YearOfExperience"],
+                            "TotalCompensation": data["TotalCompensation"]
+                        }
+                        resp[str(i)] = subresp
                         print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                         i+=1
+                    resp["avg_y"] = round(sum([int(data['YearOfExperience'].split(' ')[0]) for data in res]) / len(res), 1)
+                    resp["avg"] = round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)
                     print(f"[v] Average year of experience: {round(sum([int(data['YearOfExperience'].split(' ')[0]) for data in res]) / len(res), 1)}")
                     print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
             elif cmds[0] == "tag":
@@ -585,13 +624,32 @@ def query(levels_data, cmd):
                     if tag in data["Tag"]:
                         res.append(data)
                 if len(res) == 0:
+                    resp = {
+                        "title": f"Search for [tag:{tag}] total compensation",
+                        "tag": tag,
+                        "data": "no data, QQ"
+                    }
                     print("  |-- [!] No data")
                 else:
                     # print res line by line
+                    resp = {
+                        "title": f"Search for [tag:{tag}] total compensation",
+                        "tag": tag
+                    }
                     i = 1
                     for data in res:
+                        subresp = {
+                            "Company": data["Company"],
+                            "Location": data["Location"],
+                            "Level Name": data["Level Name"],
+                            "Tag": data["Tag"],
+                            "YearOfExperience": data["YearOfExperience"],
+                            "TotalCompensation": data["TotalCompensation"]
+                        }
+                        resp[str(i)] = subresp
                         print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                         i+=1
+                    resp["avg"] = round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)
                     print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
             elif cmds[0] == "yoe":
                 yoe = cmds[1]
@@ -601,13 +659,32 @@ def query(levels_data, cmd):
                     if int(yoe) == year:
                         res.append(data)
                 if len(res) == 0:
+                    resp = {
+                        "title": f"Search for [yoe:{yoe}] total compensation",
+                        "yoe": yoe,
+                        "data": "no data, QQ"
+                    }
                     print("  |-- [!] No data")
                 else:
                     # print res line by line
+                    resp = {
+                        "title": f"Search for [yoe:{yoe}] total compensation",
+                        "yoe": yoe
+                    }
                     i = 1
                     for data in res:
+                        subresp = {
+                            "Company": data["Company"],
+                            "Location": data["Location"],
+                            "Level Name": data["Level Name"],
+                            "Tag": data["Tag"],
+                            "YearOfExperience": data["YearOfExperience"],
+                            "TotalCompensation": data["TotalCompensation"]
+                        }
+                        resp[str(i)] = subresp
                         print(f"  |-- [{i}] Company: {data['Company']}, Location: {data['Location']}, Level Name: {data['Level Name']}, Tag: {data['Tag']}, YOE: {data['YearOfExperience']}, Total Compensation: {data['TotalCompensation']}")
                         i+=1
+                    resp["avg"] = round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)
                     print(f"[v] Average total compensation: {round(sum([int(data['TotalCompensation'].split('$')[1].replace(',', '')) for data in res]) / len(res), 2)}")
         elif cmds[0] == "filter":
             isCommand = True
