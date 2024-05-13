@@ -29,13 +29,12 @@ def crawler():
     
     excel_path = f"./FAANGN_{dt_string}.xlsx"
     url_login = ("https://www.levels.fyi/login?screen=signIn")  # login url
-    url_facebook = ("https://www.levels.fyi/companies/facebook/salaries/software-engineer?limit=50") #3
-    url_apple = ("https://www.levels.fyi/companies/apple/salaries/software-engineer?limit=50") #6
-    url_amazon = ("https://www.levels.fyi/companies/amazon/salaries/software-engineer?limit=50") #7
-    url_netflix = ("https://www.levels.fyi/companies/netflix/salaries/software-engineer?limit=50") #3
-    url_google = ("https://www.levels.fyi/companies/google/salaries/software-engineer?limit=50") #7
-    url_nividia = ("https://www.levels.fyi/companies/nvidia/salaries/software-engineer?limit=50") #5
-
+    url_facebook = ("https://www.levels.fyi/companies/facebook/salaries/software-engineer?country=254&limit=50")  # 3
+    url_apple = ("https://www.levels.fyi/companies/apple/salaries/software-engineer?limit=50&country=254")  # 6
+    url_amazon = ("https://www.levels.fyi/companies/amazon/salaries/software-engineer?country=254&limit=50")  # 7
+    url_netflix = ("https://www.levels.fyi/companies/netflix/salaries/software-engineer?country=254&limit=50")  # 3
+    url_google = ("https://www.levels.fyi/companies/google/salaries/software-engineer?country=254&limit=50")  # 7
+    url_nividia = ("https://www.levels.fyi/companies/nvidia/salaries/software-engineer?country=254&limit=50")  # 5
 
     browser = webdriver.Chrome(service=Service("./chromedriver"))
 
@@ -72,10 +71,7 @@ def crawler():
 
         if a == 1 or a == 2:
             print("[*] Facebook working")
-            # if a == 1:
-            #     print(" (Page 1/2)")
-            # elif a == 2:
-            #     print(" (Page 2/2)")
+
         if a == 1 :
             browser.get(url_facebook)
             low = 3
@@ -83,10 +79,7 @@ def crawler():
 
         if a == 3 or a == 4:
             print("[*] Amazon working")
-            # if a == 3:
-            #     print(" (Page 1/2)")
-            # elif a == 4:
-            #     print(" (Page 2/2)")
+
         if a == 3 :
             browser.get(url_amazon)
             low = 7
@@ -94,10 +87,7 @@ def crawler():
 
         if a == 5 or a == 6:
             print("[*] Apple working")
-            # if a == 5:
-            #     print(" (Page 1/2)")
-            # elif a == 6:
-            #     print(" (Page 2/2)")
+
         if a == 5 :
             browser.get(url_apple)
             low = 6
@@ -105,10 +95,7 @@ def crawler():
 
         if a == 7 or a == 8:
             print("[*] Netflix working")
-            # if a == 7:
-            #     print(" (Page 1/2)")
-            # elif a == 8:
-            #     print(" (Page 2/2)")
+            
         if a == 7 :
             browser.get(url_netflix)
             low = 3
@@ -116,10 +103,7 @@ def crawler():
 
         if a == 9 or a == 10:
             print("[*] Google working")
-            # if a == 9:
-            #     print(" (Page 1/2)")
-            # elif a == 10:
-            #     print(" (Page 2/2)")
+            
         if a == 9 :
             browser.get(url_google)
             low = 7
@@ -127,10 +111,7 @@ def crawler():
 
         if a == 11 or a == 12:
             print("[*] Nvidia working")
-            # if a == 11:
-            #     print(" (Page 1/2)")
-            # elif a == 12:
-            #     print(" (Page 2/2)")
+            
         if a == 11 :
             browser.get(url_nividia)
             low = 5
@@ -202,35 +183,39 @@ def crawler():
             abc.append(tag[i].text)
             time.sleep(0.1)
 
-        # print(len(abc))
-        # account = 0
-
         #判斷廣告數量決定要pop幾個
-        if len(abc) % 3 == 0:
+        if len(abc) == 153:
             abc.pop(15)
             abc.pop(15)
             abc.pop(15)
-        elif len(abc) % 3 == 1:
+        elif len(abc) == 151:
             abc.pop(15)
-        elif len(abc) % 3 == 2:
+        elif len(abc) == 152:
             abc.pop(15)
             abc.pop(15)
+        elif len(abc) == 154:
+            abc.pop(15)
+            abc.pop(15)
+            abc.pop(15)
+            abc.pop(15)
+
+        if a == 11:
+            if len(abc) == 148:
+                abc.pop(15)
+            elif len(abc) == 149:
+                abc.pop(15)
+                abc.pop(15)
+            elif len(abc) == 150:
+                abc.pop(15)
+                abc.pop(15)
+                abc.pop(15)
+            elif len(abc) == 151:
+                abc.pop(15)
+                abc.pop(15)
+                abc.pop(15)
+                abc.pop(15)
         
         print("  |--- [v] Some declassified data popped up successfully")
-
-        # account = 1
-        # for i in range(len(abc)):
-        #     print(f"{account}, {abc[i]}")
-        #     account += 1
-
-        # print(len(abc))
-        #pop 廣告的部分
-
-
-        # print("pop access")
-        # for i in range(len(abc)):
-        #     print(f"{cnt}, {abc[i]}")
-        #     cnt += 1
 
         time.sleep(2)
         #TAg, Total, Base 三個同Class name 所以%3
@@ -296,9 +281,6 @@ def crawler():
             else:
                 Bonus_value.append(float(Bonus[i]))
 
-        # for i in range(len(Bonus)):
-        #     print(f"{Bonus_value[i]}") #測試用
-
         print("  |--- [v] Job successfully added")
         print("  |--- [v] Total successfully added")
         print("  |--- [v] Base successfully added")
@@ -333,9 +315,6 @@ def crawler():
             location.append(split_value[0])
             date.append(split_value[1])
 
-        # for i in range(len(location)):
-        #     print(f"{location}") 測試用
-
         print("  |--- [v] Location successfully added")
 
         next_offset = len(company) #紀錄這頁的row數量
@@ -353,11 +332,6 @@ def crawler():
                 if salary[b].text != " ":
                     year.append(salary[b].text)
 
-        # for i in range(len(money)):
-        #     print(f"{cnt}, {money[i]}")
-        #     cnt += 1
-        #
-
         #存字典
         for i in range(len(company)):
             fyi[i+now_offset] = {'Company': company[i],
@@ -372,9 +346,6 @@ def crawler():
                                   'Stock(yr)': stock_value[i],
                                   'Bonus': Bonus_value[i]
                                 }
-
-        # for i in range(len(fyi)):
-        #     print(f"{fyi[i]}")
 
         #紀錄下一次字典加入的位置
         now_offset += next_offset
