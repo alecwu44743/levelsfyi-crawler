@@ -27,7 +27,7 @@ def crawler():
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y-%H-%M-%S")
     
-    excel_path = f"./FAANGN_{dt_string}.xlsx"
+    excel_path = f"./data/FAANGN_{dt_string}.xlsx"
     url_login = ("https://www.levels.fyi/login?screen=signIn")  # login url
     url_facebook = ("https://www.levels.fyi/companies/facebook/salaries/software-engineer?country=254&limit=50")  # 3
     url_apple = ("https://www.levels.fyi/companies/apple/salaries/software-engineer?limit=50&country=254")  # 6
