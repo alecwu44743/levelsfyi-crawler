@@ -27,7 +27,7 @@ def crawler():
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y-%H-%M-%S")
     
-    excel_path = f"./FAANGN_{dt_string}.xlsx"
+    excel_path = f"./data/FAANGN_{dt_string}.xlsx"
     url_login = ("https://www.levels.fyi/login?screen=signIn")  # login url
     url_facebook = ("https://www.levels.fyi/companies/facebook/salaries/software-engineer?country=254&limit=50")  # 3
     url_apple = ("https://www.levels.fyi/companies/apple/salaries/software-engineer?limit=50&country=254")  # 6
@@ -134,13 +134,19 @@ def crawler():
         if a == 1 or a == 3 or a == 5 or a == 7 or a == 9: #a = 1,3,5,7,9時會換公司 每間公司的第一個page會有廣告框跳出來
             time.sleep(12)
 
-        try:
-            btnClose = browser.find_element(By.CLASS_NAME,"modal_closeButton__sS4DR")
-            btnClose.click()
-            print("  |--- [v] close the ad")
-
-        except:
-            pass
+        err_time = 0
+        if a == 1:
+            while True:
+                if err_time > 3:
+                    break
+                try:
+                    btnClose = browser.find_element(By.CLASS_NAME,"modal_closeButton__sS4DR")
+                    btnClose.click()
+                    print("  |--- [v] close the ad")
+                    break
+                except:
+                    err_time += 1
+                    time.sleep(2)
 
         # 'Company': company[i], 'location | Date': location[i], 'Level Name': level[i], 'Tag': job[i],
         # 'Year of Experience': year[i], 'Total/At Company': Total[i], 'Total Compensation': money[i],

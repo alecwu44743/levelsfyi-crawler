@@ -28,7 +28,7 @@ email = os.getenv("EMAIL")
 password = os.getenv("PASSWD")
 
 
-defalut_path = "../FAANGN_24-12-2023-06-41-20.xlsx"
+defalut_path = "../data/FAANGN_24-12-2023-06-41-20.xlsx"
 
 app = FastAPI()
 database = {}
@@ -50,9 +50,12 @@ async def callcrawler(request: Request):
         
         if action.lower() == "crawler":
             print("[v] go to crawler")
-            # data = crawler(email, password)
-            # print(type(data))
-            return {"status": "go to crawler"}
+            data = crawler(email, password)
+            data_with_nan_as_str = [{k: "nan" if isinstance(v, float) and pd.isna(v) else v for k, v in entry.items()} for entry in data]
+            database[key] = data_with_nan_as_str
+            print(type(database[key]))
+            print(database[key])
+            return {"status": "[ok] go to crawler"}
         elif action.lower() == "default":
             print("[v] go to default")
             excel_data = pd.read_excel(defalut_path)
@@ -61,12 +64,12 @@ async def callcrawler(request: Request):
             database[key] = data_with_nan_as_str
             print(type(database[key]))
             print(database[key])
-            return {"status": "go to default"}
+            return {"status": "[ok] go to default"}
         else:
-            return {"status": "action is invalid"}
+            return {"status": "[QQ] action is invalid"}
     except Exception as e:
         print(f"[!] Error message: {e}")
-        return {"status": "fail"}
+        return {"status": "[QQ] fail"}
 
 @app.post("/query")
 async def callquery(request: Request):
