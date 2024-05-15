@@ -76,7 +76,7 @@ Type ```exit``` or ```quit``` to exit the script.
     ```
 
 ## Note
-- The script will automatically create an Excel file named ```FAANGN_${dd-mm-yy-hh-mm-ss}.xlsx``` in the same directory as the script if it does not exist.
+- The script will automatically create an Excel file named ```FAANGN_${dd-mm-yy-hh-mm-ss}.xlsx``` in the ```data/```
 - The script fetches the most recent fifty records for each company
 - The crawled data is saved in an Excel file
 
