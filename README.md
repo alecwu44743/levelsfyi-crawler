@@ -8,11 +8,18 @@ This is a web crawler script to collect salary information from levels.fyi for m
 This web crawler project, developed by Alec Wu and Leo Chen, stems from a course requirement during our studies at Feng Chia University. The objective is to scrape salary data from levels.fyi. The script fetches the most recent fifty records for each company from the website and compiles the data into an Excel file. Additionally, the project provides functionality to query and plot the extracted information, offering a versatile tool for data analysis.
 
 ## Requirements
-Make sure you have the following Python packages installed:
-```bash
-pip install selenium pandas bs4 requests matplotlib
-```
-Also, download the latest version of [ChromeDriver](https://chromedriver.chromium.org/downloads) and place it in the same directory as the script.
+- Python Package
+  - Make sure you have the following Python packages installed:
+    ```bash
+    pip3 install -r requirements.txt
+    ```
+- ChromeDriver
+    - Download the latest version of [ChromeDriver](https://chromedriver.chromium.org/downloads) and place it in the same directory as the script.
+- ```levelsfyi-crawler/.env```
+    ```bash
+    EMAIL=${YOUR_LEVELSFYI_EMAIL}
+    PASSWD=${YOUR_LEVELSFYI_PASSWORD}
+    ```
 
 ## Usage
 
@@ -69,7 +76,7 @@ Type ```exit``` or ```quit``` to exit the script.
     ```
 
 ## Note
-- The script will automatically create an Excel file named ```levels_fyi.xlsx``` in the same directory as the script if it does not exist.
+- The script will automatically create an Excel file named ```FAANGN_${dd-mm-yy-hh-mm-ss}.xlsx``` in the same directory as the script if it does not exist.
 - The script fetches the most recent fifty records for each company
 - The crawled data is saved in an Excel file
 
